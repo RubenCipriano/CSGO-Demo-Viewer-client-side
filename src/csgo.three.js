@@ -14,8 +14,8 @@ document.body.appendChild( renderer.domElement );
 
 const playersMesh = [];
 
-camera.position.x = -500 * SIZE;
-camera.position.y = -750 * SIZE;
+camera.position.x = 300 * SIZE;
+camera.position.y = 1000 * SIZE;
 camera.position.z = (5000 * SIZE) - (1000 * SIZE);
 
 var play = false;
@@ -30,16 +30,23 @@ var material = new THREE.MeshLambertMaterial({
 
 // create a plane geometry for the image with a width of 10
 // and a height that preserves the image's aspect ratio
-var geometry = new THREE.PlaneGeometry(5000 * SIZE, 5000 * SIZE);
+var geometry = new THREE.PlaneGeometry(4800 * SIZE, 4800 * SIZE);
 
 // combine our image geometry and material into a mesh
-var mesh = new THREE.Mesh(geometry, material);
+var mapMesh = new THREE.Mesh(geometry, material);
 
 // set the position of the image mesh in the x,y,z dimensions
-mesh.position.set(-650 * SIZE, -800 * SIZE,0)
+mapMesh.position.set(-200 * SIZE, 1000 * SIZE, 0);
+
+fetch(`/conf/${demoFile.header.mapName}.json`).then(res => res.json())
+.then(response => {
+    camera.position.x = response.cameraX * SIZE
+    camera.position.y = response.cameraY * SIZE
+    mapMesh.position.set(response.positionX * SIZE, response.positionY * SIZE, 0);
+}).catch(err => { throw err });
 
 // add the image to the scene
-scene.add(mesh);
+scene.add(mapMesh);
 
 // Add a point light with #fff color, .7 intensity, and 0 distance
 var light = new THREE.PointLight( 0xffffff, 1, 0 );
@@ -109,11 +116,6 @@ function animate() {
                 } else {
                     playerNamesMeshs[index].position.set(1, 1, -1000);
                     playersMesh.find((playerMesh) => playerMesh.userId == player.userId).mesh.position.set(1, 1, -1000);
-                }
-
-                if(currentTick == 767) {
-                    console.log(playerNamesMeshs[index])
-                    console.log(arrayOfticks[currentTick].players)
                 }
             })
         }
