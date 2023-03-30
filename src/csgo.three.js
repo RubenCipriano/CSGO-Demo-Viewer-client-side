@@ -30,7 +30,7 @@ var material = new THREE.MeshLambertMaterial({
 
 // create a plane geometry for the image with a width of 10
 // and a height that preserves the image's aspect ratio
-var geometry = new THREE.PlaneGeometry(4800 * SIZE, 4800 * SIZE);
+var geometry = new THREE.PlaneGeometry(5000 * SIZE, 5000 * SIZE);
 
 // combine our image geometry and material into a mesh
 var mapMesh = new THREE.Mesh(geometry, material);
@@ -43,6 +43,7 @@ fetch(`/conf/${demoFile.header.mapName}.json`).then(res => res.json())
     camera.position.x = response.cameraX * SIZE
     camera.position.y = response.cameraY * SIZE
     mapMesh.position.set(response.positionX * SIZE, response.positionY * SIZE, 0);
+    mapMesh.scale.x = mapMesh.scale.y = response.scale;
 }).catch(err => { throw err });
 
 // add the image to the scene

@@ -4,7 +4,6 @@ var intervalPlay  = null;
 var demoFile = new demofile.DemoFile();
 var threeScript = null;
 const roundTicks = [];
-
 file.addEventListener("change", function () {
 
     progress.value = 0;
