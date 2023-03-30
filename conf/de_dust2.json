@@ -1,6 +1,5 @@
 {
-    "width": 5000,
-    "height": 5000,
+    "scale": 0.9,
     "positionX": -200,
     "positionY": 1000,
     "cameraX": 300,
